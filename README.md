@@ -55,20 +55,20 @@ Para desenvolvimento desse projeto foi utilizando o Framework **Laravel ** na ve
 5. A configuração para acesso a base de dados dentro do arquivo **.env** criado, irá depender de qual meio foi escolhido para rodar a aplicação.
 
 	- **Docker**:
-		> `DB_CONNECTION=mysql`
-		> `DB_HOST=mysql`
-		> `DB_PORT=3306`
-		> `DB_DATABASE=appmax`
-		> `DB_USERNAME=appmax`
-		> `DB_PASSWORD="root"`
+		- `DB_CONNECTION=mysql`
+		- `DB_HOST=mysql`
+		- `DB_PORT=3306`
+		- `DB_DATABASE=appmax`
+		- `DB_USERNAME=appmax`
+		- `DB_PASSWORD="root"`
 		
 	- **XAMPP**
-		> `DB_CONNECTION=mysql`
-		> `DB_HOST=localhost` ou `DB_HOST=127.0.0.1`
-		> `DB_PORT=3306`
-		> `DB_DATABASE=appmax`
-		> `DB_USERNAME=root`
-		> `DB_PASSWORD=` ou `DB_PASSWORD="root"`
+		- `DB_CONNECTION=mysql`
+		- `DB_HOST=localhost` ou `DB_HOST=127.0.0.1`
+		- `DB_PORT=3306`
+		- `DB_DATABASE=appmax`
+		- `DB_USERNAME=root`
+		- `DB_PASSWORD=` ou `DB_PASSWORD="root"`
 		
 		
 6. É preciso também gerar uma chave (**Key**) para a variável "**APP_KEY=**" no arquivo **.env**, usando:
@@ -110,18 +110,18 @@ Foi utilizado o **Laradock** para executar a aplicação utilizando **Docker**, 
 	- Agora, acesse o arquivo criado **.env** , procure pelas seguintes variáveis e altere conforme os passos a seguir:
 		
 		- Nome do projeto
-			> `COMPOSE_PROJECT_NAME=test_appmax`
+			- `COMPOSE_PROJECT_NAME=test_appmax`
 		
 		- Porta para acesso local (porta da sua escolha)
-			> `NGINX_HOST_HTTP_PORT=8090`
+			- `NGINX_HOST_HTTP_PORT=8090`
 		
 		- Configuração do banco de dados. É importante definir o **USER** e **PASSWORD** como no exemplo.
 			
-			> `MYSQL_DATABASE=appmax`
-			> `MYSQL_USER=appmax`
-			> `MYSQL_PASSWORD=root`
-			> `MYSQL_PORT=8306`
-			> `MYSQL_ROOT_PASSWORD=root`
+			- `MYSQL_DATABASE=appmax`
+			- `MYSQL_USER=appmax`
+			- `MYSQL_PASSWORD=root`
+			- `MYSQL_PORT=8306`
+			- `MYSQL_ROOT_PASSWORD=root`
 			
 			- *Obs: A porta **MYSQL_PORT** precisa ser diferente de **3306** para que o não cause conflito com o Docker. No arquivo **.env** da aplicação em si, continua a porta **3306**.*
 			
@@ -249,103 +249,104 @@ Foi utilizado o **Laradock** para executar a aplicação utilizando **Docker**, 
 1. Criei uma interface básica para mostrar os dados em uma tabela buscando uma visualização rápida, sei que não foi pedido no teste, mas criei como um bônus, mas é bem básica, utilizando HTML5, CSS3 e Bootstrap de forma básica.
 
 	Para acessar, é o link principal da aplicação.
-	> http://localhost:8090/
+	- http://localhost:8090/
 	ou
-	> http://localhost:/
+	- http://localhost:/
 	
 2. Para demais ações, é preciso uma ferramenta cliente de **API REST**, como o **Insomnia** ou o **Postman**.
 	
 	- Todos Produtos
-		> `Route: /api/products/`
-		> `Type: GET`
-		> `Params: search, field, order`
-		> `Ex: /api/products?search=2tb&field=nome&desc`
-		> Retorna de acordo com os parâmetros passados  um **json** com todos os produtos cadastrados. A ordem dos parâmetros na URL não importam. Funciona sem o envio dos parâmetros também.
+		- `Route: /api/products/`
+		- `Type: GET`
+		- `Params: search, field, order`
+		- `Ex: /api/products?search=2tb&field=nome&desc`
+		- Retorna de acordo com os parâmetros passados  um **json** com todos os produtos cadastrados. A ordem dos parâmetros na URL não importam. Funciona sem o envio dos parâmetros também.
 		
 	- Buscar Produto Específico
-		> `Route: /api/products/product/{id}`
-		> `Type: GET`
-		> `Params: product id`
-		> `Ex: /api/products/product/2`
-		> Retorna os dados do produto de acordo com seu ID
+		- `Route: /api/products/product/{id}`
+		- `Type: GET`
+		- `Params: product id`
+		- `Ex: /api/products/product/2`
+		- Retorna os dados do produto de acordo com seu ID
 		
 	- Novo Produto
-		> `Route: /api/products/new`
-		> `Type: POST`
-		> `Params: nome, SKU, quantidade`
-		> `Ex: /api/products/new`
-		> Insere um novo produto.
+		- `Route: /api/products/new`
+		- `Type: POST`
+		- `Params: nome, SKU, quantidade`
+		- `Ex: /api/products/new`
+		- Insere um novo produto.
 		
-			application/json:
-			
-			{
-				"nome":"SSD 2TB",
-				"SKU":"SSD-S-S2-P-2000",
-				"quantidade":15
-			}
-			
-			- nome: min:3|max60 caracteres
-			- SKU: min:3|max:30 caracteres
-			- quantidade: integer
+				application/json:
+				
+				{
+					"nome":"SSD 2TB",
+					"SKU":"SSD-S-S2-P-2000",
+					"quantidade":15
+				}
+				
+				- nome: min:3|max60 caracteres
+				- SKU: min:3|max:30 caracteres
+				- quantidade: integer
 		
 	- Editar Produto
-		> `Route: /api/products/update/{id}`
-		> `Type: PUT`
-		> `Params: id, nome, SKU, quantidade`
-		> `Ex: /api/products/update/2`
-		> Atualiza dados de um produto pelo seu id.
+	
+		- `Route: /api/products/update/{id}`
+		- `Type: PUT`
+		- `Params: id, nome, SKU, quantidade`
+		- `Ex: /api/products/update/2`
+		- Atualiza dados de um produto pelo seu id.
 		
-			application/json
-			
-			{
-				"nome":"SSD 2TB Samsung",
-				"SKU":"SSD-S-S2-P-2000",
-				"quantidade":15
-			}
-			
-			- nome: min:3|max60 caracteres
-			- SKU: min:3|max:30 caracteres
-			- quantidade: integer
+				application/json
+				
+				{
+					"nome":"SSD 2TB Samsung",
+					"SKU":"SSD-S-S2-P-2000",
+					"quantidade":15
+				}
+				
+				- nome: min:3|max60 caracteres
+				- SKU: min:3|max:30 caracteres
+				- quantidade: integer
 		
 	- Remover Produto
-		> `Route: /api/products/delete/{id}`
-		> `Type: DELETE`
-		> `Params: product id`
-		> `Ex: /api/products/delete/2`
-		> Exclui um produto pelo seu id.
+		- `Route: /api/products/delete/{id}`
+		- `Type: DELETE`
+		- `Params: product id`
+		- `Ex: /api/products/delete/2`
+		- Exclui um produto pelo seu id.
 		
 	- Todas as Movimentações de Estoque
-		> `Route: /api/movements/`
-		> `Type: GET`
-		> `Params: search, field, order`
-		> `Ex: /api/movements?search=SSD-S-S2-P-2000&field=movements&desc`
-		> Retorna de acordo com os parâmetros passados um **json** com todos as movimentações ocorridas no sistema. A ordem dos parâmetros na URL não importam. Funciona sem o envio dos parâmetros também.
+		- `Route: /api/movements/`
+		- `Type: GET`
+		- `Params: search, field, order`
+		- `Ex: /api/movements?search=SSD-S-S2-P-2000&field=movements&desc`
+		- Retorna de acordo com os parâmetros passados um **json** com todos as movimentações ocorridas no sistema. A ordem dos parâmetros na URL não importam. Funciona sem o envio dos parâmetros também.
 	
 	- Buscar Movimentação específica de Estoque
-		> `Route: /api/movements/movement/{id}`
-		> `Type: GET`
-		> `Params: movements id`
-		> `Ex: /api/movements/movement/2`
-		> Retorna os dados da movimentação pelo envio do seu ID
+		- `Route: /api/movements/movement/{id}`
+		- `Type: GET`
+		- `Params: movements id`
+		- `Ex: /api/movements/movement/2`
+		- Retorna os dados da movimentação pelo envio do seu ID
 		
 	- Adicionar Estoque ao Produto
-		> `Route: /api/product/add/{sku}/{quantidade}`
-		> `Type: GET`
-		> `Params: SKU, quantidade`
-		> `Ex: /api/product/add/SSD-S-S2-P-2000/20`
-		> Adiciona ao estoque do produto especificado pelo seu SKU, a quantidade enviada como parâmetro.
+		- `Route: /api/product/add/{sku}/{quantidade}`
+		- `Type: GET`
+		- `Params: SKU, quantidade`
+		- `Ex: /api/product/add/SSD-S-S2-P-2000/20`
+		- Adiciona ao estoque do produto especificado pelo seu SKU, a quantidade enviada como parâmetro.
 		
 	- Retirar Estoque do Produto
-		> `Route: /api/product/sub/{sku}/{quantidade}`
-		> `Type: GET`
-		> `Params: SKU, quantidade`
-		> `Ex: /api/product/sub/SSD-S-S2-P-2000/5`
-		> Remove do estoque do produto especificado pelo seu SKU, a quantidade enviada como parâmetro.
+		- `Route: /api/product/sub/{sku}/{quantidade}`
+		- `Type: GET`
+		- `Params: SKU, quantidade`
+		- `Ex: /api/product/sub/SSD-S-S2-P-2000/5`
+		- Remove do estoque do produto especificado pelo seu SKU, a quantidade enviada como parâmetro.
 	
 	- Visualizar na tabela os dados de produtos e movimentações:
-		> `localhost:8090/` ou `localhost/`
-		> `localhost:8090/home` ou `localhost/home`
-		> Retorna em uma interface básica com uma tabela os dados dos produtos cadastrados bem como as movimentações realizadas nesses produtos.
+		- `localhost:8090/` ou `localhost/`
+		- `localhost:8090/home` ou `localhost/home`
+		- Retorna em uma interface básica com uma tabela os dados dos produtos cadastrados bem como as movimentações realizadas nesses produtos.
 
 ### Importante
 
@@ -357,13 +358,13 @@ Foi utilizado o **Laradock** para executar a aplicação utilizando **Docker**, 
 
 ## Links / Documentações / Repositórios
 
-> Repositório Github: <https://github.com/IcaroDrumond17/app-4c30hw17>
-> Documentação Laravel: <https://laravel.com/docs/8.x>
-> Repositório GitHub Laradock: <https://github.com/laradock/laradock>
-> Documentação Laradock: <http://laradock.io>
-> Docker para Windows: <https://www.docker.com/get-started/>
-> Download XAMMP: <https://www.apachefriends.org/pt_br/download.html>
-> Documentação Bootstrap: <https://getbootstrap.com>
+- Repositório Github: <https://github.com/IcaroDrumond17/app-4c30hw17>
+- Documentação Laravel: <https://laravel.com/docs/8.x>
+- Repositório GitHub Laradock: <https://github.com/laradock/laradock>
+- Documentação Laradock: <http://laradock.io>
+- Docker para Windows: <https://www.docker.com/get-started/>
+- Download XAMMP: <https://www.apachefriends.org/pt_br/download.html>
+- Documentação Bootstrap: <https://getbootstrap.com>
 
 
 ## Dúvidas?
