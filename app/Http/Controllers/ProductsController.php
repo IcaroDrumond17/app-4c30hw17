@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreValidatorRequest;
 use App\Models\Products;
 use App\Models\StockMovement;
 use Illuminate\Http\Request;
@@ -93,9 +94,10 @@ class ProductsController extends Controller
 
     /**
      * Inserts new products
+     * @param  App\Http\Requests\StoreValidatorRequest; (validator)
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreValidatorRequest $request)
     {
         if (!empty($request->all())) {
 
