@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\StockMovementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,4 +27,13 @@ Route::prefix('products')->group(function(){
     Route::post('/new', [ProductsController::class, 'store']);
     Route::put('/update/{id}', [ProductsController::class, 'update']);
     Route::delete('/delete/{id}', [ProductsController::class, 'destroy']);
+    Route::get('/product/add/{sku}/{quantidade}', [ProductsController::class, 'increaseStock']);
+    Route::get('/product/sub/{sku}/{quantidade}', [ProductsController::class, 'decreaseStock']);
+});
+
+/** URLS Movements */
+Route::prefix('movements')->group(function(){
+    Route::get('/', [StockMovementController::class, 'index']);
+    Route::get('/movement/{id}', [StockMovementController::class, 'show']);
+    Route::delete('/delete/{id}', [StockMovementController::class, 'destroy']);
 });

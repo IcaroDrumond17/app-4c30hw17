@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Products;
+use App\Models\StockMovement;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -12,6 +13,7 @@ class ProductsController extends Controller
      * @var object (get the model instance)
      */
     private $products;
+    private $stockMovement;
 
     /**
      * Constructor method
@@ -19,6 +21,7 @@ class ProductsController extends Controller
     public function __construct()
     {
         $this->products = Products::query();
+        $this->stockMovement = StockMovement::query();
     }
 
     /**
@@ -189,5 +192,132 @@ class ProductsController extends Controller
             'message' => 'Invalid id.',
             'success' => 0,
         ], 400);
+    }
+
+    /**
+     * Add stock to product
+     * @var $sku (product SKU)
+     * @var $quantidade (product ) ------------------------------ atualizar aki
+     * @return \Illuminate\Http\Response
+     */
+    public function increaseStock($sku = null, $quantidade = 0)
+    {
+        if (!empty($sku)) {
+            $sku = strtoupper($sku);
+
+            if (is_numeric($quantidade) && $quantidade > 0) {
+                $result = $this->products->where('SKU', $sku)->increment('quantidade', $quantidade);
+
+                if ($result) {
+                    $m_result = $this->updateMovement([
+                        [
+                            'message' => 'Success in incrementing ' . $quantidade . ' unit(s) of the product SKU: ' . $sku . '.',
+                            'updated' => date('Y/m/d \a\t H:i:s'),
+                        ],
+                    ], $sku);
+
+                    return response()->json([
+                        'message' => 'Success in incrementing ' . $quantidade . ' unit(s) of the product SKU: ' . $sku . '.',
+                        'movements' => $m_result ? 'History successfully updated.' : 'Failed to update history.',
+                        'success' => 1,
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'message' => 'Failed to increment ' . $quantidade . ' unit(s) of the product SKU: ' . $sku . '.',
+                        'success' => 0,
+                    ], 200);
+                }
+
+            }
+
+            return response()->json([
+                'message' => 'Failed to update stock for the product SKU: ' . $sku . '. Null quantity or does not exist',
+                'success' => 0,
+            ], 400);
+        }
+
+        return response()->json([
+            'message' => 'Failed to update stock for the product SKU: ' . $sku . '. SKU null or does not exist.',
+            'success' => 0,
+        ], 400);
+    }
+
+    /**
+     * Withdraw product stock
+     * @var $sku (product SKU)
+     * @var $quantidade (product ) ------------------------------ atualizar aki
+     * @return \Illuminate\Http\Response
+     */
+    public function decreaseStock($sku = null, $quantidade = 0)
+    {
+        if (!empty($sku)) {
+            $sku = strtoupper($sku);
+
+            if (is_numeric($quantidade) && $quantidade > 0) {
+
+                $result = $this->products->where('SKU', $sku)->decrement('quantidade', $quantidade);
+
+                if ($result) {
+
+                    $m_result = $this->updateMovement([
+                        [
+                            'message' => 'Success in decrementing ' . $quantidade . ' unit(s) of the product SKU: ' . $sku . '.',
+                            'updated' => date('Y/m/d \a\t H:i:s'),
+                        ],
+                    ], $sku);
+
+                    return response()->json([
+                        'message' => 'Success in decrementing ' . $quantidade . ' unit(s) of the product SKU: ' . $sku . '.',
+                        'movements' => $m_result ? 'History successfully updated.' : 'Failed to update history.',
+                        'success' => 1,
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'message' => 'Failed to decrement ' . $quantidade . ' unit(s) of the product SKU: ' . $sku . '.',
+                        'success' => 0,
+                    ], 200);
+                }
+
+            }
+
+            return response()->json([
+                'message' => 'Failed to update stock for the product SKU: ' . $sku . '. Null quantity or does not exist',
+                'success' => 0,
+            ], 400);
+        }
+
+        return response()->json([
+            'message' => 'Failed to update stock for the product SKU: ' . $sku . '. SKU null or does not exist.',
+            'success' => 0,
+        ], 400);
+    }
+
+    /**
+     * Creates and updates the history of product movements
+     * @var $data (Array with the data of messages, date and time of insertion or update of the product)
+     * @var $sku (product SKU)
+     * @return 1 OR 0
+     */
+    private function updateMovement($data = [], $sku = null)
+    {
+
+        if (count($data) > 0 && !empty($sku)) {
+
+            $id = $this->products->where('SKU', $sku)->select('id')->first()->id;
+
+            if ($id) {
+
+                $result = $this->stockMovement->where('product_id', $id)->select('id', 'movements')->first();
+
+                if (isset($result->id) && !empty($result->id)) {
+                    return $this->stockMovement->where('id', $result->id)->update(['movements' => array_merge($result->movements, $data)]);
+                } else {
+                    return $this->stockMovement->create(['product_id' => $id, 'movements' => $data]);
+                }
+
+            }
+        }
+
+        return 0;
     }
 }

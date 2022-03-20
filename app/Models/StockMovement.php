@@ -4,18 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\StockMovement;
 
-class Products extends Model
+class StockMovement extends Model
 {
     use HasFactory;
 
-    protected $table = 'products';
+    protected $table = 'stock_movement';
 
     protected $fillable = [
-        'nome',
-        'SKU',
-        'quantidade'
+        'product_id',
+        'movements',
     ];
 
     protected $hidden = [
@@ -23,8 +21,10 @@ class Products extends Model
         'updated_at'
     ];
 
-    public function movements()
-    {
-      return $this->hasOne(StockMovement::class, 'product_id', 'id');
-    }
+    /**
+     * setting array type for movement field
+     */
+    protected $casts = [
+        'movements' => 'array'
+    ];
 }
